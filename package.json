@@ -1,34 +1,45 @@
 {
   "name": "actions-mtz-coupons",
-  "version": "1.6.0",
-  "private": true,
-  "keywords": [],
   "description": "外卖神券天天领",
-  "author": "Vincent <vv314@foxmail.com>",
+  "version": "2.2.0",
+  "keywords": [
+    "外卖",
+    "红包"
+  ],
   "main": "index.js",
+  "type": "module",
+  "author": "Vincent <vv314@foxmail.com>",
   "scripts": {
-    "start": "node index",
-    "test": "node test/index",
-    "start:local": "node index.local",
-    "sync": "node ./sync-upstream"
+    "bootstrap": "corepack enable && corepack pnpm i",
+    "start": "node index.js",
+    "start:local": "node -r dotenv/config index.js",
+    "lint": "eslint .",
+    "test": "vitest run",
+    "sync": "node ./sync-upstream.js"
   },
   "dependencies": {
-    "https-proxy-agent": "^5.0.0",
-    "node-fetch": "^2.6.1",
-    "p-limit": "^3.1.0",
-    "semver": "^7.3.5",
-    "tough-cookie": "^4.0.0"
+    "@wasmer/wasi": "^1.2.2",
+    "https-proxy-agent": "^7.0.5",
+    "p-limit": "^6.1.0",
+    "semver": "^7.6.3",
+    "timeout-signal": "^2.0.0",
+    "tough-cookie": "^5.0.0"
   },
   "devDependencies": {
-    "dotenv": "^8.2.0"
+    "dotenv": "^16.4.5",
+    "eslint": "^9.13.0",
+    "globals": "^15.10.0",
+    "vitest": "^2.1.3"
   },
+  "private": true,
   "repository": {
     "type": "git",
     "url": "git+https://github.com/vv314/actions-mtwm-coupons.git"
   },
-  "license": "MIT",
   "bugs": {
     "url": "https://github.com/vv314/actions-mtwm-coupons/issues"
   },
-  "homepage": "https://github.com/vv314/actions-mtwm-coupons#readme"
+  "homepage": "https://github.com/vv314/actions-mtwm-coupons#readme",
+  "license": "MIT",
+  "packageManager": "pnpm@8.15.9+sha512.499434c9d8fdd1a2794ebf4552b3b25c0a633abcee5bb15e7b5de90f32f47b513aca98cd5cfd001c31f0db454bc3804edccd578501e4ca293a6816166bbd9f81"
 }

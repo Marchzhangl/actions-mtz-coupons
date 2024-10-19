@@ -4,6 +4,7 @@ name: 领红包
 on:
   # 手动触发
   workflow_dispatch:
+  # 定时任务
   schedule:
     # https://crontab.guru/
     # UTC 时间，中国时区应减 8
@@ -13,7 +14,7 @@ on:
     #         │ │ │ ┌──── month (1 - 12 or JAN-DEC)
     #         │ │ │ │ ┌── day of the week (0 - 6 or SUN-SAT)
     #         │ │ │ │ │
-    - cron: '40 2 * * *'
+    - cron: '45 2 * * *'
 
 jobs:
   start:
@@ -22,20 +23,35 @@ jobs:
 
     steps:
       - name: Checkout codes
-        uses: actions/checkout@v2
-        with: { ref: main }
-      - name: Use Node.js
-        uses: actions/setup-node@v2
+        uses: actions/checkout@v4
+
+      - uses: pnpm/action-setup@v4
+        name: Install pnpm
         with:
-          node-version: '14'
-      - run: yarn install
+          run_install: false
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version-file: '.nvmrc'
+          cache: 'pnpm'
+
+      - name: Install dependencies
+        run: pnpm install
+
       - name: Run app
-        run: yarn start
+        run: pnpm start
         env:
           TOKEN: ${{ secrets.TOKEN }}
           BARK_KEY: ${{ secrets.BARK_KEY }}
           TG_USER_ID: ${{ secrets.TG_USER_ID }}
           TG_BOT_TOKEN: ${{ secrets.TG_BOT_TOKEN }}
           SC_SEND_KEY: ${{ secrets.SC_SEND_KEY }}
+          QMSG_KEY: ${{ secrets.QMSG_KEY }}
+          QMSG_ADMIN: ${{ secrets.QMSG_ADMIN }}
           QYWX_SEND_CONF: ${{ secrets.QYWX_SEND_CONF }}
           LARK_WEBHOOK: ${{ secrets.LARK_WEBHOOK }}
+          PUSHPLUS_TOKEN: ${{ secrets.PUSHPLUS_TOKEN }}
+          WXPUSHER_TOKEN: ${{ secrets.WXPUSHER_TOKEN }}
+          WXPUSHER_TOPICID: ${{ secrets.WXPUSHER_TOPICID }}
+          DINGTALK_WEBHOOK: ${{ secrets.DINGTALK_WEBHOOK }}

@@ -1,4 +1,4 @@
-const { spawn, exec } = require('child_process')
+import { spawn } from 'node:child_process'
 
 function gitExec(opt) {
   const pull = spawn('git', opt.split(' '))
@@ -6,15 +6,15 @@ function gitExec(opt) {
   return new Promise((resolve, reject) => {
     let res = ''
 
-    pull.stdout.on('data', buffer => {
+    pull.stdout.on('data', (buffer) => {
       res += buffer.toString()
     })
 
-    pull.stderr.on('data', buffer => {
+    pull.stderr.on('data', (buffer) => {
       res += buffer.toString()
     })
 
-    pull.on('close', code => {
+    pull.on('close', (code) => {
       code == 0 ? resolve(res) : reject(res)
     })
   })
@@ -35,7 +35,7 @@ function setUpstream(upstreamUrl) {
 }
 
 function pullUpstream() {
-  return gitExec('pull upstream main:main')
+  return gitExec('pull --rebase upstream main:main')
 }
 
 function pushOrigin() {
@@ -47,7 +47,7 @@ async function main() {
 
   console.log('———— [1/4] 获取上游仓库信息 ————')
   const urls = await getRemoteUrls()
-  const exist = urls.some(url => url.startsWith('upstream'))
+  const exist = urls.some((url) => url.startsWith('upstream'))
 
   if (!exist) {
     console.log('———— [2/4] 添加上游仓库 ————')
